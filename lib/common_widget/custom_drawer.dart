@@ -49,8 +49,8 @@ class _CustomDrawerState extends State<CustomDrawer>
                     ),
                     const SizedBox(height: 10),
                     DrawerButton(
-                      label: 'University',
-                      iconData: Icons.school,
+                      label: 'Delivery Partner',
+                      iconData: Icons.moped_sharp,
                       onPressed: () {
                         changeIndex(1);
                       },
@@ -58,8 +58,8 @@ class _CustomDrawerState extends State<CustomDrawer>
                     ),
                     const SizedBox(height: 10),
                     DrawerButton(
-                      label: 'Collage',
-                      iconData: Icons.location_city,
+                      label: 'Order Details',
+                      iconData: Icons.list,
                       onPressed: () {
                         changeIndex(2);
                       },
@@ -67,8 +67,8 @@ class _CustomDrawerState extends State<CustomDrawer>
                     ),
                     const SizedBox(height: 10),
                     DrawerButton(
-                      label: 'Course',
-                      iconData: Icons.psychology,
+                      label: 'Payment Details',
+                      iconData: Icons.attach_money,
                       onPressed: () {
                         changeIndex(3);
                       },
@@ -76,8 +76,8 @@ class _CustomDrawerState extends State<CustomDrawer>
                     ),
                     const SizedBox(height: 10),
                     DrawerButton(
-                      label: 'Streams',
-                      iconData: Icons.hub,
+                      label: 'Food Category',
+                      iconData: Icons.category,
                       onPressed: () {
                         changeIndex(4);
                       },
@@ -85,8 +85,8 @@ class _CustomDrawerState extends State<CustomDrawer>
                     ),
                     const SizedBox(height: 10),
                     DrawerButton(
-                      label: 'Interests',
-                      iconData: Icons.emoji_emotions,
+                      label: 'Food Item',
+                      iconData: Icons.food_bank,
                       onPressed: () {
                         changeIndex(5);
                       },
