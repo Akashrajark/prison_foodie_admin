@@ -55,8 +55,7 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
             ),
             dataRowColor: WidgetStateProperty.resolveWith<Color?>(
               (Set<WidgetState> states) {
-                return const Color(
-                    0xffFCE4EC); // Default row color (light grey)
+                return onprimaryColor; // Default row color (light grey)
               },
             ),
             columns: _createColumns(),

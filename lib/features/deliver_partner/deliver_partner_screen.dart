@@ -38,7 +38,7 @@ class _DeliverPartnerScreenState extends State<DeliverPartnerScreen> {
             ),
             dataRowColor: WidgetStateProperty.resolveWith<Color?>(
               (Set<WidgetState> states) {
-                return Color(0xffFCE4EC); // Default row color (light grey)
+                return onprimaryColor; // Default row color (light grey)
               },
             ),
             columns: _createColumns(),

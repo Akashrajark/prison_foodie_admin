@@ -75,23 +75,6 @@ class _CustomSearchState extends State<CustomSearch> {
           SizedBox(
             width: _searchController.text.trim().isNotEmpty ? 15 : 0,
           ),
-          // _searchController.text.trim().isNotEmpty
-          //     ? InkWell(
-          //         hoverColor: Colors.transparent,
-          //         focusColor: Colors.transparent,
-          //         splashColor: Colors.transparent,
-          //         highlightColor: Colors.transparent,
-          //         onTap: () {
-          //           _lastValue = _searchController.text.trim();
-          //           widget.onSearch(_lastValue);
-          //           setState(() {});
-          //         },
-          //         child: const Icon(
-          //           Icons.search,
-          //           color: Colors.blue,
-          //         ),
-          //       )
-          //     : const SizedBox(),
           InkWell(
             hoverColor: Colors.transparent,
             focusColor: Colors.transparent,

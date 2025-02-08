@@ -70,7 +70,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             dataRowColor: WidgetStateProperty.resolveWith<Color?>(
               (Set<WidgetState> states) {
-                return const Color(0xffFCE4EC);
+                return onprimaryColor;
               },
             ),
             columnSpacing: 12,
