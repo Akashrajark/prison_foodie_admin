@@ -1,4 +1,3 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:prison_foodie_admin/features/Order_details/dummy_order_details.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
@@ -30,21 +29,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ),
         const SizedBox(height: 20),
         Expanded(
-          child: DataTable2(
-            headingRowColor: WidgetStateProperty.resolveWith<Color?>(
-              (Set<WidgetState> states) {
-                return primaryColor; // Default row color (light grey)
-              },
-            ),
-            dataRowColor: WidgetStateProperty.resolveWith<Color?>(
-              (Set<WidgetState> states) {
-                return onprimaryColor; // Default row color (light grey)
-              },
-            ),
+          child: DataTable(
+            headingRowColor: const WidgetStatePropertyAll<Color?>(primaryColor),
+            dataRowColor: const WidgetStatePropertyAll<Color?>(onprimaryColor),
             columns: _createColumns(), // Fixed column generation
             rows: _createRows(), // Fixed row generation
             columnSpacing: 12,
-            dataRowHeight: 60,
+
             headingTextStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

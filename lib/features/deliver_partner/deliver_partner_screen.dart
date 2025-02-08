@@ -1,4 +1,3 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:prison_foodie_admin/features/deliver_partner/dummy_delivery_boy_data.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
@@ -30,7 +29,7 @@ class _DeliverPartnerScreenState extends State<DeliverPartnerScreen> {
         ),
         const SizedBox(height: 20),
         Expanded(
-          child: DataTable2(
+          child: DataTable(
             headingRowColor: WidgetStateProperty.resolveWith<Color?>(
               (Set<WidgetState> states) {
                 return primaryColor; // Default row color (light grey)
@@ -44,7 +43,7 @@ class _DeliverPartnerScreenState extends State<DeliverPartnerScreen> {
             columns: _createColumns(),
             rows: _createRows(),
             columnSpacing: 12,
-            dataRowHeight: 60,
+            dataRowMaxHeight: 60,
             headingTextStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

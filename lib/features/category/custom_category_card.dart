@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../common_widget/custom_button.dart';
-
 class CustomCategoryCard extends StatelessWidget {
   final String coverImageUrl;
   final String name;
 
-  final Function() onEdit, onDelete, viewList;
+  final Function() onEdit, onDelete;
 
   const CustomCategoryCard({
     super.key,
@@ -14,7 +12,6 @@ class CustomCategoryCard extends StatelessWidget {
     required this.name,
     required this.onEdit,
     required this.onDelete,
-    required this.viewList,
   });
 
   @override
@@ -26,67 +23,47 @@ class CustomCategoryCard extends StatelessWidget {
       ),
       elevation: 4,
       child: SizedBox(
-        width: 400,
+        width: 250,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Stack(
-              alignment: Alignment.topRight,
-              children: [
-                ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(8)),
-                  child: Image.network(
-                    coverImageUrl,
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: onEdit,
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.orange,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: onDelete,
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(8)),
+              child: Image.network(
+                coverImageUrl,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Row(
                 children: [
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                      ],
+                    child: Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  CustomButton(
-                    onPressed: viewList,
-                    label: "View list",
+                  IconButton(
+                    onPressed: onEdit,
+                    icon: const Icon(
+                      Icons.edit,
+                      color: Colors.orange,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: onDelete,
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
                   ),
                 ],
               ),

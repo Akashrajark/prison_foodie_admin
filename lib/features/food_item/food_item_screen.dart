@@ -1,9 +1,13 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/web.dart';
 import 'package:prison_foodie_admin/common_widget/custom_button.dart';
-import 'package:prison_foodie_admin/features/food_item/Dummy_food_item.dart';
 import 'package:prison_foodie_admin/features/food_item/add_edit_food_item.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
+
+import '../../common_widget/custom_alert_dialog.dart';
+import '../../util/check_login.dart';
+import 'food_items_bloc/food_items_bloc.dart';
 
 class FoodItemScreen extends StatefulWidget {
   const FoodItemScreen({super.key});
@@ -13,63 +17,129 @@ class FoodItemScreen extends StatefulWidget {
 }
 
 class _FoodItemScreenState extends State<FoodItemScreen> {
-  final List<DummyFoodItem> foodItemList = List.from(deliveryDetail);
+  final FoodItemsBloc _foodItemsBloc = FoodItemsBloc();
+
+  Map<String, dynamic> params = {
+    'query': null,
+  };
+
+  List<Map> _foodItems = [];
+
+  @override
+  void initState() {
+    checkLogin(context);
+    getFoodItems();
+    super.initState();
+  }
+
+  void getFoodItems() {
+    _foodItemsBloc.add(GetAllFoodItemsEvent(params: params));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocProvider.value(
+      value: _foodItemsBloc,
+      child: BlocConsumer<FoodItemsBloc, FoodItemsState>(
+        listener: (context, state) {
+          if (state is FoodItemsFailureState) {
+            showDialog(
+              context: context,
+              builder: (context) => CustomAlertDialog(
+                title: 'Failure',
+                description: state.message,
+                primaryButton: 'Try Again',
+                onPrimaryPressed: () {
+                  getFoodItems();
+                  Navigator.pop(context);
+                },
+              ),
+            );
+          } else if (state is FoodItemsGetSuccessState) {
+            _foodItems = state.foodItems;
+            Logger().w(_foodItems);
+            setState(() {});
+          } else if (state is FoodItemsSuccessState) {
+            getFoodItems();
+          }
+        },
+        builder: (context, state) {
+          return Column(
             children: [
-              const Text(
-                'FOOD Item Details',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+              Padding(
+                padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'FOOD Item Details',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    CustomButton(
+                      inverse: true,
+                      label: 'Add Category',
+                      iconData: Icons.add,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => BlocProvider.value(
+                            value: _foodItemsBloc,
+                            child: const AddEditFoodItem(),
+                          ),
+                        );
+                      },
+                    )
+                  ],
                 ),
               ),
-              CustomButton(
-                inverse: true,
-                label: 'Add Category',
-                iconData: Icons.add,
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const AddEditFoodItem(),
-                  );
-                },
-              )
+              const SizedBox(height: 20),
+              Expanded(
+                child: DataTable(
+                  columnSpacing: 12,
+                  headingTextStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: onprimaryColor,
+                  ),
+                  headingRowColor: WidgetStateProperty.resolveWith<Color?>(
+                    (Set<WidgetState> states) {
+                      return primaryColor; // Default row color (light grey)
+                    },
+                  ),
+                  dataRowColor: WidgetStateProperty.resolveWith<Color?>(
+                    (Set<WidgetState> states) {
+                      return onprimaryColor; // Default row color (light grey)
+                    },
+                  ),
+                  columns: _createColumns(),
+                  rows: List.generate(
+                    _foodItems.length,
+                    (index) => DataRow(
+                      cells: [
+                        DataCell(
+                          Text(_foodItems[index]['name']),
+                        ),
+                        DataCell(
+                          Text(_foodItems[index]['price'].toString()),
+                        ),
+                        DataCell(
+                          Text(_foodItems[index]['count'].toString()),
+                        ),
+                        DataCell(
+                          Text(_foodItems[index]['category']?['name']),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
-          ),
-        ),
-        const SizedBox(height: 20),
-        Expanded(
-          child: DataTable2(
-            headingRowColor: WidgetStateProperty.resolveWith<Color?>(
-              (Set<WidgetState> states) {
-                return primaryColor; // Default row color (light grey)
-              },
-            ),
-            dataRowColor: WidgetStateProperty.resolveWith<Color?>(
-              (Set<WidgetState> states) {
-                return onprimaryColor; // Default row color (light grey)
-              },
-            ),
-            columns: _createColumns(),
-            rows: _createRows(),
-            columnSpacing: 12,
-            dataRowHeight: 60,
-            headingTextStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: onprimaryColor,
-            ),
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 
@@ -77,7 +147,7 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
     return [
       const DataColumn(
           label: Text(
-        'Item Name',
+        'Name',
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -85,7 +155,7 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
       )),
       const DataColumn(
           label: Text(
-        'Item Price',
+        'Price',
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -93,7 +163,7 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
       )),
       const DataColumn(
           label: Text(
-        'Item Image',
+        'Count',
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -101,31 +171,12 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
       )),
       const DataColumn(
           label: Text(
-        'Item Category',
+        'Category',
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
       )),
     ];
-  }
-
-  List<DataRow> _createRows() {
-    return foodItemList.map((e) {
-      return DataRow(cells: [
-        DataCell(
-          Text(e.itemName),
-        ),
-        DataCell(
-          Text(e.itemPrice.toString()),
-        ),
-        DataCell(
-          Text(e.itemImageUrl),
-        ),
-        DataCell(
-          Text(e.category),
-        ),
-      ]);
-    }).toList();
   }
 }

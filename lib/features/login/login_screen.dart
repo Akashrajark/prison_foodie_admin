@@ -65,9 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           builder: (context, state) {
             return Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 600),
-                child: Card(
+              child: SizedBox(
+                width: 350,
+                child: Material(
                   elevation: 8,
                   shadowColor: onSecondaryContainer,
                   shape: RoundedRectangleBorder(
