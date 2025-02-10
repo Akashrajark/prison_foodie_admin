@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prison_foodie_admin/features/Order_details/dummy_order_details.dart';
+import 'package:prison_foodie_admin/features/Order_details/order_details_view_screen.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -56,7 +57,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       const DataColumn(label: Text('Delivery Boy Name', style: _headerStyle)),
       const DataColumn(label: Text('Price', style: _headerStyle)),
       const DataColumn(label: Text('Status', style: _headerStyle)),
-      const DataColumn(label: Text('Items', style: _headerStyle)),
+      const DataColumn(label: Text('Details', style: _headerStyle)),
     ];
   }
 
@@ -82,7 +83,19 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             ),
           ),
         ),
-        DataCell(e.items), // "View" button
+        DataCell(TextButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OrderDetailsViewScreen(),
+                ));
+          },
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.blue, // Text color
+          ),
+          child: const Text("View"),
+        )), // "View" button
       ]);
     }).toList();
   }

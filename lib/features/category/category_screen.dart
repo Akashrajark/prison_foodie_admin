@@ -97,6 +97,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     child: Text("No Catgory Found"),
                   ),
                 Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
                   children: List.generate(
                     _categories.length,
                     (index) => CustomCategoryCard(

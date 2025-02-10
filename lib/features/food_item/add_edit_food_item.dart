@@ -53,7 +53,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
   }
 
   void getCategories() {
-    _categoriesBloc.add(GetAllCategoriesEvent(params: {
+    _categoriesBloc.add(GetAllCategoriesEvent(params: const {
       'query': null,
     }));
   }
@@ -176,7 +176,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
                         CustomDropDownMenu(
                           initialSelection: categoryID,
                           controller: _categoryController,
-                          hintText: "Select Course",
+                          hintText: "Select Category",
                           onSelected: (selected) {
                             categoryID = selected;
                             Logger().w(categoryID);
@@ -201,7 +201,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
                         CustomTextFormField(
                           labelText: 'Enter Description',
                           controller: _descriptionController,
-                          validator: alphanumericWithSpaceValidator,
+                          validator: notEmptyValidator,
                         ),
                         const SizedBox(
                           height: 15,
