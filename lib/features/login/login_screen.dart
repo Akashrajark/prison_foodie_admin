@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prison_foodie_admin/common_widget/custom_alert_dialog.dart';
 import 'package:prison_foodie_admin/common_widget/custom_button.dart';
+import 'package:prison_foodie_admin/common_widget/custom_text_formfield.dart';
 import 'package:prison_foodie_admin/features/home/home_screen.dart';
 import 'package:prison_foodie_admin/features/login/login_bloc/login_bloc.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
+import 'package:prison_foodie_admin/util/value_validator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final bool _isObscure = true;
+  bool _isObscure = true;
 
   @override
   void initState() {
@@ -109,45 +111,54 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 20),
 
                           // Email Field
-                          TextField(
+                          CustomTextFormField(
+                            isLoading: state is LoginLoadingState,
                             controller: _emailController,
-                            decoration: const InputDecoration(
-                              labelText: "Email",
-                              border: OutlineInputBorder(),
-                              prefixIcon: Icon(Icons.email),
-                            ),
+                            prefixIconData: Icons.email,
+                            labelText: 'Email',
+                            validator: emailValidator,
                           ),
                           const SizedBox(height: 16),
 
                           // Password Field
-                          TextField(
+                          TextFormField(
+                            enabled: state is! LoginLoadingState,
                             controller: _passwordController,
                             obscureText: _isObscure,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: "Password",
-                              border: OutlineInputBorder(),
-                              prefixIcon: Icon(Icons.lock),
+                              border: const OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  _isObscure = !_isObscure;
+                                  setState(() {});
+                                },
+                                icon: Icon(
+                                  _isObscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                              ),
+                              prefixIcon: const Icon(Icons.lock),
                             ),
                           ),
                           const SizedBox(height: 24),
 
                           // Login Button
-                          SizedBox(
-                            width: double.infinity,
-                            child: CustomButton(
-                              inverse: true,
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  BlocProvider.of<LoginBloc>(context).add(
-                                    LoginEvent(
-                                      email: _emailController.text.trim(),
-                                      password: _passwordController.text.trim(),
-                                    ),
-                                  );
-                                }
-                              },
-                              label: 'Login',
-                            ),
+                          CustomButton(
+                            isLoading: state is LoginLoadingState,
+                            inverse: true,
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                BlocProvider.of<LoginBloc>(context).add(
+                                  LoginEvent(
+                                    email: _emailController.text.trim(),
+                                    password: _passwordController.text.trim(),
+                                  ),
+                                );
+                              }
+                            },
+                            label: 'Login',
                           ),
                         ],
                       ),

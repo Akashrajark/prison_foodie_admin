@@ -132,6 +132,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
                         ),
                         const SizedBox(height: 5),
                         CustomTextFormField(
+                          isLoading: state is FoodItemsLoadingState,
                           labelText: 'Enter Name',
                           controller: _nameController,
                           validator: alphabeticWithSpaceValidator,
@@ -146,6 +147,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
                         ),
                         const SizedBox(height: 5),
                         CustomTextFormField(
+                          isLoading: state is FoodItemsLoadingState,
                           labelText: 'Enter Price',
                           controller: _priceController,
                           validator: numericValidator,
@@ -160,6 +162,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
                         ),
                         const SizedBox(height: 5),
                         CustomTextFormField(
+                          isLoading: state is FoodItemsLoadingState,
                           labelText: 'Enter Count',
                           controller: _countController,
                           validator: numericValidator,
@@ -174,9 +177,10 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
                         ),
                         const SizedBox(height: 5),
                         CustomDropDownMenu(
+                          isLoading: state is FoodItemsLoadingState,
                           initialSelection: categoryID,
                           controller: _categoryController,
-                          hintText: "Select Course",
+                          hintText: "Select Category",
                           onSelected: (selected) {
                             categoryID = selected;
                             Logger().w(categoryID);
@@ -199,6 +203,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
                         ),
                         const SizedBox(height: 5),
                         CustomTextFormField(
+                          isLoading: state is FoodItemsLoadingState,
                           labelText: 'Enter Description',
                           controller: _descriptionController,
                           validator: alphanumericWithSpaceValidator,

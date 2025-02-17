@@ -1,7 +1,9 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/web.dart';
 import 'package:prison_foodie_admin/common_widget/custom_button.dart';
+import 'package:prison_foodie_admin/common_widget/custom_search.dart';
 import 'package:prison_foodie_admin/features/food_item/add_edit_food_item.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
 
@@ -64,23 +66,37 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
           }
         },
         builder: (context, state) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
-                child: Row(
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'FOOD Item Details',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                    const Expanded(
+                      child: Text(
+                        'Food Items',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
+                    ),
+                    SizedBox(
+                      width: 300,
+                      child: CustomSearch(
+                        onSearch: (query) {
+                          params['query'] = query;
+                          getFoodItems();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                     CustomButton(
                       inverse: true,
-                      label: 'Add Category',
+                      label: 'Add Food',
                       iconData: Icons.add,
                       onPressed: () {
                         showDialog(
@@ -94,49 +110,55 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
                     )
                   ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: DataTable(
-                  columnSpacing: 12,
-                  headingTextStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: onprimaryColor,
+                const SizedBox(height: 20),
+                if (state is FoodItemsLoadingState) LinearProgressIndicator(),
+                if (state is FoodItemsGetSuccessState && _foodItems.isEmpty)
+                  Center(
+                    child: Text("No Food found!"),
                   ),
-                  headingRowColor: WidgetStateProperty.resolveWith<Color?>(
-                    (Set<WidgetState> states) {
-                      return primaryColor; // Default row color (light grey)
-                    },
-                  ),
-                  dataRowColor: WidgetStateProperty.resolveWith<Color?>(
-                    (Set<WidgetState> states) {
-                      return onprimaryColor; // Default row color (light grey)
-                    },
-                  ),
-                  columns: _createColumns(),
-                  rows: List.generate(
-                    _foodItems.length,
-                    (index) => DataRow(
-                      cells: [
-                        DataCell(
-                          Text(_foodItems[index]['name']),
+                if (state is FoodItemsGetSuccessState && _foodItems.isNotEmpty)
+                  Expanded(
+                    child: DataTable2(
+                      columnSpacing: 12,
+                      headingTextStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: onprimaryColor,
+                      ),
+                      headingRowColor: WidgetStateProperty.resolveWith<Color?>(
+                        (Set<WidgetState> states) {
+                          return primaryColor; // Default row color (light grey)
+                        },
+                      ),
+                      dataRowColor: WidgetStateProperty.resolveWith<Color?>(
+                        (Set<WidgetState> states) {
+                          return onprimaryColor; // Default row color (light grey)
+                        },
+                      ),
+                      columns: _createColumns(),
+                      rows: List.generate(
+                        _foodItems.length,
+                        (index) => DataRow(
+                          cells: [
+                            DataCell(
+                              Text(_foodItems[index]['name']),
+                            ),
+                            DataCell(
+                              Text(_foodItems[index]['price'].toString()),
+                            ),
+                            DataCell(
+                              Text(_foodItems[index]['count'].toString()),
+                            ),
+                            DataCell(
+                              Text(_foodItems[index]['category']?['name']),
+                            ),
+                          ],
                         ),
-                        DataCell(
-                          Text(_foodItems[index]['price'].toString()),
-                        ),
-                        DataCell(
-                          Text(_foodItems[index]['count'].toString()),
-                        ),
-                        DataCell(
-                          Text(_foodItems[index]['category']?['name']),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

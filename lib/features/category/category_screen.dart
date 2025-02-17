@@ -6,6 +6,7 @@ import 'package:prison_foodie_admin/features/category/add_edit_category.dart';
 import 'package:prison_foodie_admin/features/category/custom_category_card.dart';
 
 import '../../common_widget/custom_alert_dialog.dart';
+import '../../common_widget/custom_search.dart';
 import '../../util/check_login.dart';
 import 'categories_bloc/categories_bloc.dart';
 
@@ -72,6 +73,27 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    const Expanded(
+                      child: Text(
+                        'Categories',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 300,
+                      child: CustomSearch(
+                        onSearch: (query) {
+                          params['query'] = query;
+                          getCategories();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
                     CustomButton(
                       inverse: true,
                       label: 'Add Category',
@@ -88,54 +110,58 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     )
                   ],
                 ),
-                if (state is CategoriesLoadingState)
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                SizedBox(
+                  height: 20,
+                ),
+                if (state is CategoriesLoadingState) LinearProgressIndicator(),
                 if (state is CategoriesGetSuccessState && _categories.isEmpty)
-                  const Center(
-                    child: Text("No Catgory Found"),
+                  Center(
+                    child: Text("No Category found!"),
                   ),
-                Wrap(
-                  children: List.generate(
-                    _categories.length,
-                    (index) => CustomCategoryCard(
-                      coverImageUrl: _categories[index]['image_url'],
-                      name: _categories[index]['name'],
-                      onEdit: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => BlocProvider.value(
-                            value: _categoriesBloc,
-                            child: AddEditCategory(
-                              categorieDetails: _categories[index],
+                if (state is CategoriesGetSuccessState &&
+                    _categories.isNotEmpty)
+                  Wrap(
+                    runSpacing: 20,
+                    spacing: 20,
+                    children: List.generate(
+                      _categories.length,
+                      (index) => CustomCategoryCard(
+                        coverImageUrl: _categories[index]['image_url'],
+                        name: _categories[index]['name'],
+                        onEdit: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => BlocProvider.value(
+                              value: _categoriesBloc,
+                              child: AddEditCategory(
+                                categorieDetails: _categories[index],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      onDelete: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => CustomAlertDialog(
-                            title: 'Delete Categorie?',
-                            description:
-                                'Deletion will fail if there are records under this categorie',
-                            primaryButton: 'Delete',
-                            onPrimaryPressed: () {
-                              _categoriesBloc.add(
-                                DeleteCategorieEvent(
-                                  categorieId: _categories[index]['id'],
-                                ),
-                              );
-                              Navigator.pop(context);
-                            },
-                            secondaryButton: 'Cancel',
-                          ),
-                        );
-                      },
+                          );
+                        },
+                        onDelete: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomAlertDialog(
+                              title: 'Delete Categorie?',
+                              description:
+                                  'Deletion will fail if there are records under this categorie',
+                              primaryButton: 'Delete',
+                              onPrimaryPressed: () {
+                                _categoriesBloc.add(
+                                  DeleteCategorieEvent(
+                                    categorieId: _categories[index]['id'],
+                                  ),
+                                );
+                                Navigator.pop(context);
+                              },
+                              secondaryButton: 'Cancel',
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                )
+                  )
               ],
             ),
           );

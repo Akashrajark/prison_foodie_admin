@@ -86,6 +86,7 @@ class _AddEditCategoryState extends State<AddEditCategory> {
                   ),
                   const SizedBox(height: 5),
                   CustomTextFormField(
+                    isLoading: state is CategoriesLoadingState,
                     labelText: 'Enter Name',
                     controller: _nameController,
                     validator: alphabeticWithSpaceValidator,
