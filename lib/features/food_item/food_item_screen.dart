@@ -153,6 +153,19 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
                             DataCell(
                               Text(_foodItems[index]['category']?['name']),
                             ),
+                            DataCell(
+                              CustomButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => FoodItemDetailDialog(
+                                      foodItemDetails: (_foodItems[index]),
+                                    ),
+                                  );
+                                },
+                                label: 'view',
+                              ),
+                            ),
                           ],
                         ),
                       ),
