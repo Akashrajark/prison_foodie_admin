@@ -118,6 +118,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   Center(
                     child: Text("No Category found!"),
                   ),
+<<<<<<< HEAD
                 if (state is CategoriesGetSuccessState &&
                     _categories.isNotEmpty)
                   Wrap(
@@ -136,6 +137,23 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               child: AddEditCategory(
                                 categorieDetails: _categories[index],
                               ),
+=======
+                Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
+                  children: List.generate(
+                    _categories.length,
+                    (index) => CustomCategoryCard(
+                      coverImageUrl: _categories[index]['image_url'],
+                      name: _categories[index]['name'],
+                      onEdit: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => BlocProvider.value(
+                            value: _categoriesBloc,
+                            child: AddEditCategory(
+                              categorieDetails: _categories[index],
+>>>>>>> a06fdb0ef245e0ebc8aac719426f239df5d1dda8
                             ),
                           );
                         },

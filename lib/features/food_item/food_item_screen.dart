@@ -8,6 +8,7 @@ import 'package:prison_foodie_admin/features/food_item/add_edit_food_item.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
 
 import '../../common_widget/custom_alert_dialog.dart';
+import '../../common_widget/custom_text_with_label.dart';
 import '../../util/check_login.dart';
 import 'food_items_bloc/food_items_bloc.dart';
 
@@ -199,6 +200,76 @@ class _FoodItemScreenState extends State<FoodItemScreen> {
           fontWeight: FontWeight.w400,
         ),
       )),
+      const DataColumn(
+          label: Text(
+        'Action',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+        ),
+      )),
     ];
+  }
+}
+
+class FoodItemDetailDialog extends StatelessWidget {
+  final Map foodItemDetails;
+  const FoodItemDetailDialog({
+    super.key,
+    required this.foodItemDetails,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomAlertDialog(
+      title: 'Food item detail',
+      width: 500,
+      content: Column(
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.network(
+                fit: BoxFit.cover,
+                foodItemDetails['image_url'],
+                height: 200,
+                width: 200,
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Wrap(
+                spacing: 20,
+                children: [
+                  TextWithLabel(
+                    label: 'Food Item Name',
+                    text: foodItemDetails['name'],
+                  ),
+                  TextWithLabel(
+                    label: 'Item Price',
+                    text: foodItemDetails['price'].toString(),
+                  ),
+                  TextWithLabel(
+                    label: 'Available count',
+                    text: foodItemDetails['count'].toString(),
+                  ),
+                  TextWithLabel(
+                    label: 'Category Name',
+                    text: foodItemDetails['category']['name'],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          TextWithLabel(
+            label: 'Description',
+            text: foodItemDetails['description'],
+          ),
+        ],
+      ),
+    );
   }
 }

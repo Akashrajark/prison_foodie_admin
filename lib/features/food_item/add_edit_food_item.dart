@@ -53,7 +53,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
   }
 
   void getCategories() {
-    _categoriesBloc.add(GetAllCategoriesEvent(params: {
+    _categoriesBloc.add(GetAllCategoriesEvent(params: const {
       'query': null,
     }));
   }
@@ -206,7 +206,7 @@ class _AddEditFoodItemState extends State<AddEditFoodItem> {
                           isLoading: state is FoodItemsLoadingState,
                           labelText: 'Enter Description',
                           controller: _descriptionController,
-                          validator: alphanumericWithSpaceValidator,
+                          validator: notEmptyValidator,
                         ),
                         const SizedBox(
                           height: 15,
