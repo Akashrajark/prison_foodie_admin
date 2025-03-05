@@ -99,8 +99,8 @@ ThemeData appTheme = ThemeData(
     prefixIconColor: iconColor,
     floatingLabelBehavior: FloatingLabelBehavior.auto,
     contentPadding: const EdgeInsets.symmetric(
-      vertical: 5,
-      horizontal: 8,
+      horizontal: 10,
+      vertical: 15,
     ),
     fillColor: cardBackgroundColor,
     filled: true,

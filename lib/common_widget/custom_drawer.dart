@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../features/login/login_screen.dart';
 import '../theme/app_theme.dart';
+import 'change_password.dart';
 import 'custom_alert_dialog.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -66,9 +67,18 @@ class _CustomDrawerState extends State<CustomDrawer>
                       isSelected: widget.tabController.index == 2,
                     ),
                     const SizedBox(height: 10),
+                    // DrawerButton(
+                    //   label: 'Payment Details',
+                    //   iconData: Icons.attach_money,
+                    //   onPressed: () {
+                    //     changeIndex(3);
+                    //   },
+                    //   isSelected: widget.tabController.index == 3,
+                    // ),
+                    // const SizedBox(height: 10),
                     DrawerButton(
-                      label: 'Payment Details',
-                      iconData: Icons.attach_money,
+                      label: 'Food Category',
+                      iconData: Icons.category,
                       onPressed: () {
                         changeIndex(3);
                       },
@@ -76,8 +86,8 @@ class _CustomDrawerState extends State<CustomDrawer>
                     ),
                     const SizedBox(height: 10),
                     DrawerButton(
-                      label: 'Food Category',
-                      iconData: Icons.category,
+                      label: 'Food Item',
+                      iconData: Icons.food_bank,
                       onPressed: () {
                         changeIndex(4);
                       },
@@ -85,10 +95,13 @@ class _CustomDrawerState extends State<CustomDrawer>
                     ),
                     const SizedBox(height: 10),
                     DrawerButton(
-                      label: 'Food Item',
-                      iconData: Icons.food_bank,
+                      iconData: Icons.lock_outline_rounded,
+                      label: "Change Password",
                       onPressed: () {
-                        changeIndex(5);
+                        showDialog(
+                          context: context,
+                          builder: (context) => const ChangePasswordDialog(),
+                        );
                       },
                       isSelected: widget.tabController.index == 5,
                     ),

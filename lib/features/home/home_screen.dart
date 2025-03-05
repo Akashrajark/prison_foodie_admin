@@ -5,7 +5,6 @@ import 'package:prison_foodie_admin/features/category/category_screen.dart';
 import 'package:prison_foodie_admin/features/dashboard/dashboard.dart';
 import 'package:prison_foodie_admin/features/deliver_partner/deliver_partner_screen.dart';
 import 'package:prison_foodie_admin/features/food_item/food_item_screen.dart';
-import 'package:prison_foodie_admin/features/payment_details/payment_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
 
     _tabController = TabController(
-      length: 6,
+      length: 5,
       vsync: this,
       initialIndex: 0,
     );
@@ -46,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
             Dashboard(),
             DeliverPartnerScreen(),
             OrderDetailsScreen(),
-            PaymentDetailsScreen(),
+            // PaymentDetailsScreen(),
             CategoryScreen(),
             FoodItemScreen()
           ]),

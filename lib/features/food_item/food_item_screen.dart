@@ -251,8 +251,8 @@ class FoodItemDetailDialog extends StatelessWidget {
               const SizedBox(
                 width: 20,
               ),
-              Wrap(
-                spacing: 20,
+              Column(
+                spacing: 10,
                 children: [
                   TextWithLabel(
                     label: 'Food Item Name',

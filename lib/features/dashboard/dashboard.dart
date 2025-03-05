@@ -83,11 +83,11 @@ class _DashboardState extends State<Dashboard> {
                       label: "Total Food Items",
                       value: formatValue(_dashboard['total_food_items']),
                     ),
-                    DashboardItem(
-                      iconData: Icons.currency_rupee_outlined,
-                      label: "Total Revenue",
-                      value: "will be updated later",
-                    ),
+                    // DashboardItem(
+                    //   iconData: Icons.currency_rupee_outlined,
+                    //   label: "Total Revenue",
+                    //   value: "will be updated later",
+                    // ),
                     DashboardItem(
                       iconData: Icons.person,
                       label: "Total Category",
