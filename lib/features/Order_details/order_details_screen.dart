@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/web.dart';
 import 'package:prison_foodie_admin/common_widget/custom_button.dart';
 import 'package:prison_foodie_admin/common_widget/custom_search.dart';
+import 'package:prison_foodie_admin/features/Order_details/order_details_view_screen.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
 import 'package:prison_foodie_admin/util/format_function.dart';
 
@@ -132,10 +133,21 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 ),
                               ),
                             ),
-                            DataCell(CustomButton(
-                              onPressed: () {},
-                              label: 'View',
-                            )),
+                            DataCell(
+                              CustomButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderDetail(
+                                        order: _orders[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                label: 'View',
+                              ),
+                            ),
                           ],
                         ),
                       ),

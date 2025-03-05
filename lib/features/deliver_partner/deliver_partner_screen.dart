@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/web.dart';
 import 'package:prison_foodie_admin/common_widget/custom_search.dart';
 import 'package:prison_foodie_admin/theme/app_theme.dart';
+import 'package:prison_foodie_admin/util/format_function.dart';
 
 import '../../common_widget/custom_alert_dialog.dart';
 import '../../util/check_login.dart';
@@ -258,7 +259,77 @@ class _DeliverPartnerScreenState extends State<DeliverPartnerScreen> {
                                   const SizedBox(width: 8),
                                   TextButton(
                                     onPressed: () {
-                                      // Handle View Action
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => CustomAlertDialog(
+                                          width: 300,
+                                          title: 'Delivery Partner Details',
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 40,
+                                                backgroundImage: NetworkImage(
+                                                  _deliveryPartners[index]
+                                                      ['image_url'],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                'Name: ${_deliveryPartners[index]['name']}',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                'Email: ${_deliveryPartners[index]['email']}',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                'Status: ${_deliveryPartners[index]['status']}',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Image.network(
+                                                _deliveryPartners[index]
+                                                    ['license_url'],
+                                                height: 200,
+                                                width: double.infinity,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                'Vehicle No: ${_deliveryPartners[index]['vehicle_no']}',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                'Address: ${formatAddress(_deliveryPartners[index])}',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          primaryButton: 'Close',
+                                          onPrimaryPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      );
                                     },
                                     style: TextButton.styleFrom(
                                       foregroundColor:
